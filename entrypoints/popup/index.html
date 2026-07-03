@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Breadcrumb</title>
+  </head>
+  <body>
+    <main class="popup">
+      <header class="header">
+        <div class="header-main">
+          <img src="/icon/48.png" alt="" width="30" height="30" />
+          <div>
+            <h1>Breadcrumb</h1>
+            <p>Never lose what you learn online</p>
+          </div>
+        </div>
+        <button
+          id="settings-toggle"
+          class="icon-btn"
+          type="button"
+          aria-label="Settings"
+          title="Settings"
+        >
+          ⚙
+        </button>
+      </header>
+
+      <section id="saved-banner" class="panel saved hidden">
+        <p class="saved-title">Saved to your trail</p>
+        <p class="saved-text" id="saved-text"></p>
+        <p class="saved-meta" id="saved-meta"></p>
+        <div id="saved-similar" class="similar hidden">
+          <p class="section-label">You saved something similar before</p>
+          <ul id="saved-similar-list" class="results compact"></ul>
+        </div>
+      </section>
+
+      <section class="panel search-panel">
+        <div class="search-row">
+          <span class="search-icon" aria-hidden="true">🔍</span>
+          <input
+            id="search-input"
+            type="search"
+            placeholder="Search your knowledge…"
+            autocomplete="off"
+            spellcheck="false"
+          />
+        </div>
+        <p id="search-status" class="hint"></p>
+        <ul id="results" class="results"></ul>
+        <p id="empty-state" class="empty hidden"></p>
+      </section>
+
+      <section id="settings-section" class="panel hidden">
+        <p class="section-label">Search &amp; AI</p>
+        <label class="switch-row">
+          <span>Semantic (AI) search</span>
+          <input id="setting-enable-semantic" type="checkbox" />
+        </label>
+        <label class="switch-row">
+          <span>Auto-build embeddings</span>
+          <input id="setting-auto-embed" type="checkbox" />
+        </label>
+        <label class="slider-row">
+          <span>Keyword ↔ Meaning</span>
+          <input
+            id="setting-semantic-weight"
+            type="range"
+            min="0"
+            max="100"
+            step="5"
+            value="50"
+          />
+        </label>
+        <p class="hint">
+          Embeddings run entirely on your device. The small model downloads once,
+          then works offline.
+        </p>
+      </section>
+
+      <footer class="footer">
+        <span id="note-count" class="footer-count">0 notes</span>
+        <span id="model-status" class="footer-status"></span>
+        <button id="open-library" class="btn-link" type="button">
+          Open library →
+        </button>
+      </footer>
+    </main>
+    <script type="module" src="./main.ts"></script>
+  </body>
+</html>
