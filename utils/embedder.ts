@@ -31,11 +31,23 @@ function emitProgress(progress: ModelProgress): void {
   }
 }
 
+/**
+ * Resolve a packaged asset path to a runtime URL. Uses a loose signature because
+ * these files (public/ort, public/models) are fetched at build time, so they
+ * aren't part of WXT's statically-known public-path union.
+ */
+function assetUrl(path: string): string {
+  return (browser.runtime.getURL as (p: string) => string)(path);
+}
+
 async function loadEmbedder(): Promise<(text: string) => Promise<number[]>> {
   const { pipeline, env } = await import('@huggingface/transformers');
 
-  // The model weights (data) are fetched once from the model hub and cached.
-  env.allowLocalModels = false;
+  // The model ships inside the extension package, so it loads from disk and the
+  // extension makes NO network request at runtime — fully offline, on-device.
+  env.allowLocalModels = true;
+  env.allowRemoteModels = false;
+  env.localModelPath = assetUrl('/models/');
   env.useBrowserCache = true;
 
   // Serve the ONNX Runtime WebAssembly from the extension package instead of a
@@ -47,8 +59,8 @@ async function loadEmbedder(): Promise<(text: string) => Promise<number[]>> {
     | undefined;
   if (onnx?.wasm) {
     onnx.wasm.wasmPaths = {
-      wasm: browser.runtime.getURL('/ort/ort-wasm-simd-threaded.asyncify.wasm'),
-      mjs: browser.runtime.getURL('/ort/ort-wasm-simd-threaded.asyncify.mjs'),
+      wasm: assetUrl('/ort/ort-wasm-simd-threaded.asyncify.wasm'),
+      mjs: assetUrl('/ort/ort-wasm-simd-threaded.asyncify.mjs'),
     };
     onnx.wasm.numThreads = 1;
   }

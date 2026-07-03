@@ -1,4 +1,4 @@
-.PHONY: help install prepare dev dev-firefox build build-firefox \
+.PHONY: help install prepare assets dev dev-firefox build build-firefox \
 	zip zip-firefox icons test test-watch typecheck check package clean \
 	release-patch release-minor release-major
 
@@ -10,6 +10,9 @@ help: ## Show available commands
 
 install: ## Install dependencies (pnpm)
 	$(PNPM) install
+
+assets: ## Fetch bundled ONNX runtime + embedding model into public/
+	$(PNPM) assets
 
 prepare: ## Generate WXT types and prepare the project
 	$(PNPM) exec wxt prepare

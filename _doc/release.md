@@ -34,8 +34,11 @@ Load unpacked for manual QA:
 3. Click **Load unpacked**
 4. Select `.output/chrome-mv3`
 
-> **Note on size.** The package bundles the ONNX Runtime WebAssembly binary, so
-> the zip is larger than a typical extension. This keeps inference on-device.
+> **Note on size.** The package bundles the ONNX Runtime WebAssembly binary and
+> the embedding model, so the zip is larger than a typical extension (~22 MB).
+> This is deliberate: it makes the extension fully offline with no runtime
+> network requests. The bundled assets are fetched at build time by
+> `scripts/sync-ort-wasm.mjs` and `scripts/sync-model.mjs` (git-ignored).
 
 ## CI pipeline (`.github/workflows/ci.yml`)
 
@@ -90,9 +93,9 @@ git push origin master --follow-tags
    - `contextMenus` — add the "Save to Breadcrumb" right-click item
    - `storage` — store settings and a temporary "just saved" hint
    - `activeTab` — read the current tab's title/URL when the user saves a highlight
-6. Data-use disclosures: **no data collection**, **no remote code** (all JS *and*
-   the WebAssembly runtime ship in the package; only the ML model weights — data,
-   not code — download once from the model hub and are cached).
+6. Data-use disclosures: **no data collection**, **no remote code** (all JS, the
+   WebAssembly runtime, *and* the ML model are bundled in the package; the
+   extension makes no network requests at runtime).
 7. Submit for review
 
 ### Review tips

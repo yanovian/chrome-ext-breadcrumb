@@ -98,8 +98,8 @@ For a query:
 - **No host permissions / no content scripts** — the extension never runs in web pages.
 - **`activeTab` only** — the tab's title/URL is read solely when you invoke the menu.
 - **Local storage only** — IndexedDB + `chrome.storage.local`.
-- **On-device inference** — embeddings run in WebAssembly. The WASM runtime is **bundled in the package** (`public/ort/`, copied from `onnxruntime-web` at build time by `scripts/sync-ort-wasm.mjs`); only the model weights (data) download once and cache. No user content is sent to any server.
-- **No remote code** — all JavaScript **and** the WebAssembly runtime ship in the package; nothing executable is loaded from a CDN. `utils/embedder.ts` points `env.backends.onnx.wasm.wasmPaths` at the packaged runtime.
+- **Fully offline** — the WASM runtime (`public/ort/`) *and* the embedding model (`public/models/`) are bundled into the package at build time (`scripts/sync-ort-wasm.mjs`, `scripts/sync-model.mjs`). The extension makes **no network request at runtime**; nothing user-related is ever sent anywhere.
+- **No remote code** — all JavaScript **and** the WebAssembly runtime ship in the package; nothing executable is loaded from a CDN. `utils/embedder.ts` points `env.backends.onnx.wasm.wasmPaths` at the packaged runtime and `env.localModelPath` at the packaged model (`allowRemoteModels = false`).
 - **WASM CSP** — `content_security_policy.extension_pages` adds `'wasm-unsafe-eval'` so ONNX Runtime can execute the local WebAssembly.
 
 ## Build system

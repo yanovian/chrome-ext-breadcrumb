@@ -9,9 +9,9 @@ https://github.com/yanovian/chrome-ext-breadcrumb/blob/master/PRIVACY.md
 
 **Breadcrumb does not collect your data.** There is no account, no analytics, and
 no backend server that receives your notes or searches. Everything you save stays
-**on your device**, in your browser. The only network activity is a one-time
-download of the on-device AI model and runtime from a public CDN (described
-below) — never your content.
+**on your device**, in your browser. The AI model and runtime are bundled inside
+the extension, so Breadcrumb makes **no network requests at all** — your content
+never leaves your device.
 
 ## Who we are
 
@@ -46,12 +46,11 @@ inject scripts into the pages you visit.
 Semantic search uses a small machine-learning model that runs **entirely in your
 browser** with WebAssembly. There is no inference server.
 
-- The WebAssembly runtime is bundled **inside the extension** — no code is loaded
-  from remote servers.
-- The model's weights (data, not code) are downloaded **once** from the public
-  model hub and cached by your browser. After that, the feature works offline.
-- Only those model files are fetched. **Your notes, searches, and browsing are
-  never sent anywhere.**
+- The WebAssembly runtime **and** the model weights are bundled **inside the
+  extension** — nothing is downloaded from any server, and no code is loaded
+  remotely.
+- Inference happens fully offline on your device. **Your notes, searches, and
+  browsing are never sent anywhere.**
 
 You can turn semantic AI off entirely in the extension settings; full-text search
 still works.
