@@ -11,7 +11,7 @@ help: ## Show available commands
 install: ## Install dependencies (pnpm)
 	$(PNPM) install
 
-assets: ## Fetch bundled ONNX runtime + embedding model into public/
+assets: ## Prepare bundled assets: ONNX runtime, embedding model, and _locales
 	$(PNPM) assets
 
 prepare: ## Generate WXT types and prepare the project

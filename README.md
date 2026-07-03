@@ -78,10 +78,23 @@ pnpm dev
 | `pnpm build` | Production build (Chrome) |
 | `pnpm zip` | Create Chrome Web Store zip |
 | `pnpm icons` | Regenerate icons from `scripts/generate-icons.py` |
+| `pnpm locales` | Regenerate `_locales/*/messages.json` from `scripts/generate-locales.mjs` |
 | `pnpm test` | Run unit tests |
 | `pnpm typecheck` | TypeScript check |
 
 A `Makefile` wraps the same tasks (`make check`, `make package`, `make release-patch`, …).
+
+## Localization
+
+The store description and toolbar tooltip are translated into ~40 languages via
+Chrome's `_locales` system. The browser shows the right language automatically
+based on the user's UI language, falling back to English (`default_locale`). The
+extension **name** stays "Breadcrumb" everywhere (it's a brand).
+
+All translations live in a single source file, [`scripts/generate-locales.mjs`](./scripts/generate-locales.mjs)
+(the generated `public/_locales/` is git-ignored). It runs automatically before
+every `dev`/`build`/`zip` (via `pnpm assets`), so a package can never ship without
+its locale files. To add or edit a language, update the script and run `pnpm locales`.
 
 ## How it works
 

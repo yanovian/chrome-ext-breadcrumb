@@ -7,6 +7,8 @@ dist/
 coverage/
 package-lock.json
 
-# Fetched at build time by scripts/sync-ort-wasm.mjs / sync-model.mjs
+# Generated at build time (source of truth lives in scripts/):
+#   sync-ort-wasm.mjs, sync-model.mjs, generate-locales.mjs
 public/ort/
 public/models/
+public/_locales/
