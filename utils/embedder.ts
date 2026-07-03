@@ -34,13 +34,28 @@ function emitProgress(progress: ModelProgress): void {
 async function loadEmbedder(): Promise<(text: string) => Promise<number[]>> {
   const { pipeline, env } = await import('@huggingface/transformers');
 
-  // No local model files are bundled; weights are fetched once from the model
-  // hub CDN and cached by the browser. Inference then runs fully on-device.
+  // The model weights (data) are fetched once from the model hub and cached.
   env.allowLocalModels = false;
   env.useBrowserCache = true;
 
+  // Serve the ONNX Runtime WebAssembly from the extension package instead of a
+  // CDN, so NO remotely-hosted code is ever executed (required by Manifest V3
+  // and the Chrome Web Store). Files are copied into public/ort/ at build time.
+  (env as { useWasmCache?: boolean }).useWasmCache = false;
+  const onnx = env.backends?.onnx as
+    | { wasm?: { wasmPaths?: unknown; numThreads?: number } }
+    | undefined;
+  if (onnx?.wasm) {
+    onnx.wasm.wasmPaths = {
+      wasm: browser.runtime.getURL('/ort/ort-wasm-simd-threaded.asyncify.wasm'),
+      mjs: browser.runtime.getURL('/ort/ort-wasm-simd-threaded.asyncify.mjs'),
+    };
+    onnx.wasm.numThreads = 1;
+  }
+
   const extractor = await pipeline('feature-extraction', EMBEDDING_MODEL, {
     dtype: 'q8',
+    device: 'wasm',
     progress_callback: (progress: unknown) => {
       emitProgress(progress as ModelProgress);
     },

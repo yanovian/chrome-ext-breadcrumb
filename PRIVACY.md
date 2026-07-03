@@ -46,11 +46,12 @@ inject scripts into the pages you visit.
 Semantic search uses a small machine-learning model that runs **entirely in your
 browser** with WebAssembly. There is no inference server.
 
-- The model weights and the WebAssembly runtime are downloaded **once** from a
-  public content-delivery network and cached by your browser. After that, the
-  feature works offline.
-- Only the model/runtime files are fetched. **Your notes, searches, and browsing
-  are never sent anywhere.**
+- The WebAssembly runtime is bundled **inside the extension** — no code is loaded
+  from remote servers.
+- The model's weights (data, not code) are downloaded **once** from the public
+  model hub and cached by your browser. After that, the feature works offline.
+- Only those model files are fetched. **Your notes, searches, and browsing are
+  never sent anywhere.**
 
 You can turn semantic AI off entirely in the extension settings; full-text search
 still works.

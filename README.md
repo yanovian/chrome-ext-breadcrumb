@@ -95,9 +95,11 @@ See [`_doc/architecture.md`](./_doc/architecture.md) for the full technical desi
 ## On-device AI
 
 Embeddings run entirely in your browser via WebAssembly — there is **no inference
-server**. The small embedding model and the WASM runtime are fetched once from a
-public CDN and cached; after that, everything works offline. Your notes and
-searches are never uploaded anywhere.
+server**. The WebAssembly runtime ships **inside the extension package** (no
+remotely-hosted code). The only thing fetched from the network is the small
+embedding model's weights (data), downloaded once from the model hub and cached;
+after that, everything works offline. Your notes and searches are never uploaded
+anywhere.
 
 ## Tech stack
 

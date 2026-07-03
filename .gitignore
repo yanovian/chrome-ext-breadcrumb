@@ -6,3 +6,6 @@ dist/
 .DS_Store
 coverage/
 package-lock.json
+
+# Copied from onnxruntime-web at build time by scripts/sync-ort-wasm.mjs
+public/ort/

@@ -90,9 +90,9 @@ git push origin master --follow-tags
    - `contextMenus` — add the "Save to Breadcrumb" right-click item
    - `storage` — store settings and a temporary "just saved" hint
    - `activeTab` — read the current tab's title/URL when the user saves a highlight
-6. Data-use disclosures: **no data collection**, **no remote code** (all JS is
-   bundled; only the ML model weights and WASM runtime are downloaded once from a
-   public CDN as data/assets and cached).
+6. Data-use disclosures: **no data collection**, **no remote code** (all JS *and*
+   the WebAssembly runtime ship in the package; only the ML model weights — data,
+   not code — download once from the model hub and are cached).
 7. Submit for review
 
 ### Review tips
