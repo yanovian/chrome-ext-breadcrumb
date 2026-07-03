@@ -1,7 +1,7 @@
 {
   "name": "breadcrumb",
   "description": "Never lose what you learn online — highlight, save, and search your knowledge locally with on-device AI.",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
   "type": "module",
   "scripts": {
