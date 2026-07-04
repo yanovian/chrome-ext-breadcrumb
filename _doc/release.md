@@ -78,7 +78,7 @@ git push origin master --follow-tags
 
 1. [Chrome Web Store Developer account](https://chrome.google.com/webstore/devconsole) ($5 one-time fee)
 2. A green CI build or local `pnpm zip` artifact
-3. Store listing assets: 128×128 icon (`public/icon/128.png`), screenshots (1280×800), and descriptions (see README)
+3. Store listing assets: 128×128 icon (`public/icon/128.png`), screenshots (1280×800), and the localized listing descriptions in [`store-listing.md`](./store-listing.md)
 
 ### Upload steps
 
@@ -89,6 +89,8 @@ git push origin master --follow-tags
    - **Name:** Breadcrumb
    - **Category:** Productivity
    - **Single purpose:** Save highlighted text and search it later
+   - **Description (per language):** set the editing language, then paste the
+     matching text from [`store-listing.md`](./store-listing.md)
 5. Permission justifications:
    - `contextMenus` — add the "Save to Breadcrumb" right-click item
    - `storage` — store settings and a temporary "just saved" hint
