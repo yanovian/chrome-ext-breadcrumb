@@ -1,5 +1,8 @@
 # Breadcrumb
 
+[![CI](https://github.com/yanovian/chrome-ext-breadcrumb/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/yanovian/chrome-ext-breadcrumb/actions/workflows/ci.yml)
+[![last contribution](https://img.shields.io/github/last-commit/yanovian/chrome-ext-breadcrumb/master?label=last%20contribution)](https://github.com/yanovian/chrome-ext-breadcrumb/commits/master)
+
 **Never lose what you've learned online.**
 
 > **[⬇️ Install from the Chrome Web Store](https://chromewebstore.google.com/detail/breadcrumb/medkklaaakhdpgcoaghblbnleeandifi)**
