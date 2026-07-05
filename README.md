@@ -2,7 +2,9 @@
 
 **Never lose what you've learned online.**
 
-> **[Install from the Chrome Web Store →](https://chromewebstore.google.com/detail/breadcrumb/medkklaaakhdpgcoaghblbnleeandifi)**
+> **[⬇️ Install from the Chrome Web Store](https://chromewebstore.google.com/detail/breadcrumb/medkklaaakhdpgcoaghblbnleeandifi)**
+>
+> **[How to use Breadcrumb →](./_doc/tutorial.md)**
 
 Every page you read leaves a breadcrumb. Every idea you save becomes part of a
 searchable trail. Highlight text on any page, right-click **Save to Breadcrumb**,
