@@ -1,4 +1,4 @@
-# Breadcrumb
+# <img src="./public/icon/48.png" alt="Breadcrumb icon" width="38" height="38" valign="middle"> Breadcrumb
 
 [![CI](https://github.com/yanovian/chrome-ext-breadcrumb/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/yanovian/chrome-ext-breadcrumb/actions/workflows/ci.yml)
 [![last contribution](https://img.shields.io/github/last-commit/yanovian/chrome-ext-breadcrumb/master?label=last%20contribution)](https://github.com/yanovian/chrome-ext-breadcrumb/commits/master)
