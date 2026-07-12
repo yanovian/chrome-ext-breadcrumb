@@ -5,9 +5,11 @@ on:
     branches: [master]
   pull_request:
     branches: [master]
-    # `ready_for_review` re-runs QA when a draft is marked ready, which
-    # re-triggers the Assign reviewer workflow.
+    # `ready_for_review` re-runs QA when a draft is marked ready for review.
     types: [opened, synchronize, reopened, ready_for_review]
+
+permissions:
+  contents: read
 
 jobs:
   test:
@@ -84,8 +86,12 @@ jobs:
         working-directory: website
         run: pnpm install --frozen-lockfile
 
+      - name: Lint website i18n
+        working-directory: website
+        run: pnpm lint-i18n
+
       - name: Build website
         working-directory: website
         env:
-          VITE_BASE_PATH: /chrome-ext-breadcrumb/
+          VITE_BASE_PATH: /${{ github.event.repository.name }}/
         run: pnpm build
