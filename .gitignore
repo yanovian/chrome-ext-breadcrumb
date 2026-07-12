@@ -7,6 +7,10 @@ dist/
 coverage/
 package-lock.json
 
+website/dist/
+website/public/
+website/node_modules/
+
 # Generated at build time (source of truth lives in scripts/):
 #   sync-ort-wasm.mjs, sync-model.mjs, generate-locales.mjs
 public/ort/

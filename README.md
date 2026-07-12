@@ -7,7 +7,7 @@
 
 > **[⬇️ Install from the Chrome Web Store](https://chromewebstore.google.com/detail/breadcrumb/medkklaaakhdpgcoaghblbnleeandifi)**
 >
-> **[How to use Breadcrumb →](./_doc/tutorial.md)**
+> **[Website →](https://yanovian.github.io/chrome-ext-breadcrumb/)** · **[How to use Breadcrumb →](./_doc/tutorial.md)**
 
 Every page you read leaves a breadcrumb. Every idea you save becomes part of a
 searchable trail. Highlight text on any page, right-click **Save to Breadcrumb**,
@@ -89,7 +89,9 @@ pnpm dev
 | `pnpm test` | Run unit tests |
 | `pnpm typecheck` | TypeScript check |
 
-A `Makefile` wraps the same tasks (`make check`, `make package`, `make release-patch`, …).
+A `Makefile` wraps the same tasks (`make check`, `make package`, `make website-build`, …).
+
+**Website:** https://yanovian.github.io/chrome-ext-breadcrumb/ (see `website/README.md`).
 
 ## Localization
 

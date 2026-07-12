@@ -40,6 +40,16 @@ jobs:
       - name: Package Firefox zip
         run: pnpm zip:firefox
 
+      - name: Assert website is not in release zips
+        run: |
+          for file in .output/*-chrome.zip .output/*-firefox.zip .output/*-sources.zip; do
+            test -f "$file"
+            if unzip -l "$file" | grep -qi 'website/'; then
+              echo "website/ must not be packaged in $file"
+              exit 1
+            fi
+          done
+
       - name: Locate release zips
         id: zips
         run: |

@@ -1,0 +1,15 @@
+{
+  "title": "Breadcrumb: ¡No vuelvas a perder lo que aprendes en internet",
+  "description": "Guarda resaltados de cualquier página web y busca todo lo que aprendes con IA privada en tu dispositivo.",
+  "ogImageAlt": "Breadcrumb — tu rastro de aprendizaje buscable",
+  "authorName": "Yanovian LLC",
+  "creatorName": "Pooyan Razian",
+  "privacy": {
+    "title": "Política de privacidad de Breadcrumb",
+    "description": "Cómo Breadcrumb maneja tus datos. Solo local, sin cuentas, sin nube. Las notas y búsquedas nunca salen de tu dispositivo."
+  },
+  "terms": {
+    "title": "Términos de servicio de Breadcrumb",
+    "description": "Términos de uso de la extensión Breadcrumb para Chrome. Software gratuito de Yanovian LLC."
+  }
+}

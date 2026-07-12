@@ -1,0 +1,15 @@
+{
+  "title": "Breadcrumb: No tornis a perdre mai més el que has après en línia",
+  "description": "Desa fragments de qualsevol pàgina web i cerca tot el que aprens amb una IA privada al teu dispositiu.",
+  "ogImageAlt": "Breadcrumb — el teu rastre d'aprenentatge cercable",
+  "authorName": "Yanovian LLC",
+  "creatorName": "Pooyan Razian",
+  "privacy": {
+    "title": "Política de privacitat de Breadcrumb",
+    "description": "Com Breadcrumb gestiona les teves dades. Només local, sense comptes ni núvol. Notes i cerques no surten mai del dispositiu."
+  },
+  "terms": {
+    "title": "Termes del servei de Breadcrumb",
+    "description": "Termes d'ús de l'extensió Breadcrumb per a Chrome. Programari gratuït de Yanovian LLC."
+  }
+}

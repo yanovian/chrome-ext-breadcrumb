@@ -55,5 +55,8 @@ export default defineConfig({
   },
   zip: {
     name: 'breadcrumb',
+    exclude: ['_metadata/**', '__MACOSX/**', '**/.DS_Store', '**/._*'],
+    // Firefox AMO review ships a sources archive; keep the marketing site out of it.
+    excludeSources: ['website/**'],
   },
 });

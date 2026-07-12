@@ -3,6 +3,9 @@
 **Last updated:** July 3, 2026
 
 **Privacy policy URL (for Chrome Web Store):**
+https://yanovian.github.io/chrome-ext-breadcrumb/privacy
+
+Authoritative source (GitHub):
 https://github.com/yanovian/chrome-ext-breadcrumb/blob/master/PRIVACY.md
 
 ## Summary

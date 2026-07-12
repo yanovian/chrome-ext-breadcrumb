@@ -1,0 +1,15 @@
+{
+  "title": "Breadcrumb: 온라인에서 배운 것을 다시는 잃어버리지 마세요",
+  "description": "어떤 웹페이지에서든 하이라이트를 저장하고, 배운 모든 것을 기기 내 개인 AI로 검색하세요.",
+  "ogImageAlt": "Breadcrumb — 검색 가능한 학습 여정",
+  "authorName": "Yanovian LLC",
+  "creatorName": "Pooyan Razian",
+  "privacy": {
+    "title": "Breadcrumb 개인정보 처리방침",
+    "description": "Breadcrumb가 데이터를 처리하는 방법. 로컬만, 계정 없음, 클라우드 없음. 노트와 검색은 기기를 떠나지 않습니다."
+  },
+  "terms": {
+    "title": "Breadcrumb 서비스 약관",
+    "description": "Breadcrumb Chrome 확장 프로그램 이용 약관. Yanovian LLC의 무료 소프트웨어."
+  }
+}

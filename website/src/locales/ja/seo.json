@@ -1,0 +1,15 @@
+{
+  "title": "Breadcrumb: オンラインで学んだことを、もう二度と見失いません",
+  "description": "どんなウェブページからでもハイライトを保存し、学んだことすべてを端末内のプライベートAIで検索できます。",
+  "ogImageAlt": "Breadcrumb — 検索できる学習の軌跡",
+  "authorName": "Yanovian LLC",
+  "creatorName": "Pooyan Razian",
+  "privacy": {
+    "title": "Breadcrumb プライバシーポリシー",
+    "description": "Breadcrumb がデータをどう扱うか。ローカルのみ、アカウントなし、クラウドなし。ノートと検索はデバイスから出ません。"
+  },
+  "terms": {
+    "title": "Breadcrumb 利用規約",
+    "description": "Breadcrumb Chrome 拡張機能の利用条件。Yanovian LLC の無料ソフトウェア。"
+  }
+}

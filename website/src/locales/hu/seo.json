@@ -1,0 +1,15 @@
+{
+  "title": "Breadcrumb: Soha többé ne veszítsd el, amit online tanultál",
+  "description": "Ments el kiemeléseket bármely weboldalról, és keress mindenben, amit tanulsz, az eszközön futó privát MI-vel.",
+  "ogImageAlt": "Breadcrumb — a kereshető tanulási ösvényed",
+  "authorName": "Yanovian LLC",
+  "creatorName": "Pooyan Razian",
+  "privacy": {
+    "title": "Breadcrumb adatvédelmi irányelvek",
+    "description": "Hogyan kezeli a Breadcrumb az adataidat. Csak helyben, nincs fiók, nincs felhő. A jegyzetek és keresések soha nem hagyják el az eszközt."
+  },
+  "terms": {
+    "title": "Breadcrumb szolgáltatási feltételek",
+    "description": "A Breadcrumb Chrome-bővítmény használatának feltételei. Ingyenes szoftver a Yanovian LLC-től."
+  }
+}
