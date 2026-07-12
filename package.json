@@ -19,7 +19,7 @@
     "postinstall": "wxt prepare && node scripts/sync-ort-wasm.mjs && node scripts/sync-model.mjs && node scripts/generate-locales.mjs",
     "test": "vitest run",
     "test:watch": "vitest",
-    "typecheck": "tsc --noEmit -p .wxt/tsconfig.json"
+    "typecheck": "tsc --noEmit -p tsconfig.json"
   },
   "packageManager": "pnpm@10.33.4+sha512.1c67b3b359b2d408119ba1ed289f34b8fc3c6873412bec6fd264fbdc82489e510fcbecb9ce9d22dae7f3b76269d8441046014bdca53b9979cd7a561ad631b800",
   "devDependencies": {
