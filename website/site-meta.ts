@@ -6,6 +6,18 @@ export const SITE_REPO_PATH = 'chrome-ext-breadcrumb';
 
 export const SITE_URL = `${SITE_ORIGIN}/${SITE_REPO_PATH}/`;
 
+/** Published site URL for a repo on GitHub Pages. */
+export function pagesSiteUrl(
+  repoPath: string = SITE_REPO_PATH,
+  assetPath = '',
+): string {
+  const base = `${SITE_ORIGIN}/${repoPath}/`;
+  if (!assetPath) {
+    return base;
+  }
+  return new URL(assetPath.replace(/^\//, ''), base).href;
+}
+
 export const SITE_NAME = 'Breadcrumb';
 
 export const CHROME_STORE_URL =
