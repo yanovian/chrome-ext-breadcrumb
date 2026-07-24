@@ -2,7 +2,7 @@
 
 All notable user-facing changes to Breadcrumb.
 
-## 3.3.0 [Unreleased]
+## 3.3.0
 
 - Notes now survive extension updates via an automatic local backup.
 - Add Markdown, plain text, and PDF export, plus JSON import.
