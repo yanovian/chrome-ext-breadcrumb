@@ -1,5 +1,6 @@
-import { saveNote } from '../utils/db';
-import { createNote } from '../utils/note';
+import { readBackup, writeBackup } from '../utils/backup';
+import { countNotes, getAllNotes, putNotes, saveNote } from '../utils/db';
+import { createNote, normalizeNote } from '../utils/note';
 import { ensureSettingsExist, setLastSave } from '../utils/settings';
 import { CONTEXT_MENU_ID } from '../utils/types';
 import type { NoteInput, RuntimeMessage, RuntimeResponse } from '../utils/types';
@@ -49,22 +50,66 @@ async function capture(
   const { note, duplicate } = await saveNote(created.note);
   await setLastSave({ noteId: note.id, savedAt: Date.now() });
   await flashBadge(duplicate);
+  // Keep the storage.local safety-net backup current. Awaited, not fired and
+  // forgotten, since the service worker can be torn down right after this call.
+  await writeBackup(await getAllNotes());
 
   return { id: note.id, duplicate };
+}
+
+/**
+ * If IndexedDB comes up empty right after an update (the exact symptom of the
+ * data loss this guards against), restore from the storage.local backup.
+ * IndexedDB and storage.local are separate storage areas, so a problem
+ * affecting one (eviction, corruption) very likely leaves the other intact.
+ * Never touches IndexedDB when it already has notes, so it can't clobber a
+ * deliberate "Clear all" (which also empties the backup; see the
+ * clearAllNotes call sites).
+ */
+async function restoreFromBackupIfEmpty(): Promise<number> {
+  const existing = await countNotes();
+  if (existing > 0) {
+    return 0;
+  }
+  const backupNotes = await readBackup();
+  if (!backupNotes) {
+    return 0;
+  }
+  await putNotes(backupNotes.map((note) => normalizeNote(note)));
+  return backupNotes.length;
+}
+
+async function restoreAndNotify(): Promise<void> {
+  const restored = await restoreFromBackupIfEmpty();
+  if (restored === 0) {
+    return;
+  }
+  await browser.action.setBadgeBackgroundColor({ color: SAVED_COLOR });
+  await browser.action.setBadgeText({ text: '↺' });
+  await browser.action.setTitle({
+    title: `Breadcrumb: restored ${restored} note${restored === 1 ? '' : 's'} from backup`,
+  });
+  setTimeout(() => {
+    void resetBadge();
+  }, 8000);
 }
 
 export default defineBackground(() => {
   void ensureSettingsExist();
 
-  browser.runtime.onInstalled.addListener(async () => {
+  browser.runtime.onInstalled.addListener(async (details) => {
     await ensureSettingsExist();
     await ensureContextMenu();
     await resetBadge();
+    if (details.reason === 'update') {
+      await restoreAndNotify();
+    }
   });
 
   browser.runtime.onStartup.addListener(async () => {
     await ensureContextMenu();
     await resetBadge();
+    await restoreAndNotify();
   });
 
   browser.contextMenus.onClicked.addListener((info, tab) => {

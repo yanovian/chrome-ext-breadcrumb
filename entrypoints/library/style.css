@@ -411,7 +411,18 @@ body {
 
 .card-actions {
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
+}
+
+.card-actions select {
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 8px 8px;
+  font: inherit;
+  font-size: 12.5px;
 }
 
 .btn-secondary {

@@ -43,7 +43,8 @@ Built for the people who forget where they learned something:
 - **Similar notes** — when you save something, Breadcrumb shows related things you saved before.
 - **Learning timeline** — a month-by-month breakdown of what you've been learning ("May: 14 AWS notes, 8 Kubernetes notes").
 - **Topic tags** — notes are auto-tagged (AWS, Kubernetes, AI, Rust…) for filtering and the timeline.
-- **Export & delete** — export everything as JSON, or wipe it in one click. It's your data.
+- **Export & import**: export as JSON (re-importable), Markdown, plain text, or a print-ready PDF. Import a JSON file back in; duplicates are skipped. Or wipe it all in one click. It's your data.
+- **Update-safe**: a slim backup lives in a second, separate storage area. If IndexedDB ever comes up empty right after an update, Breadcrumb restores from it automatically.
 
 ## Permissions
 
@@ -58,10 +59,12 @@ Breadcrumb requests only three permissions — and no host permissions:
 | Permission | Why |
 |------------|-----|
 | `contextMenus` | Add the **Save to Breadcrumb** right-click item on selected text |
-| `storage` | Save your settings and the "just saved" hint locally |
+| `storage` | Save your settings, the "just saved" hint, and a slim backup snapshot of your notes locally |
 | `activeTab` | Read the title/URL of the tab you save from — only when you invoke the menu |
 
-Notes themselves are stored in **IndexedDB**, on your device.
+Notes themselves are stored in **IndexedDB**, on your device. A lightweight copy (everything but the
+AI embeddings, which are cheap to recompute) is also mirrored into `chrome.storage.local`, a separate
+storage area, so an update can self-heal if IndexedDB ever comes up empty when it shouldn't.
 
 **No browsing history. No reading every page. No backend. No scary permissions.**
 

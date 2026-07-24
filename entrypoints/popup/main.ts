@@ -155,7 +155,7 @@ async function runSearch(query: string): Promise<void> {
   }
 
   // Semantic pass layers meaning-based matches on top. The model/backfill only
-  // starts now, on demand — never while the popup is opening.
+  // starts now, on demand, never while the popup is opening.
   void maybeBackfill();
   const unsubscribe = onModelProgress((progress) => {
     if (
@@ -345,7 +345,7 @@ void (async () => {
   await reloadNotes();
   await showSavedBanner();
   renderRecent();
-  // Cheap in-memory check only — never triggers model load/embedding here.
+  // Cheap in-memory check only, never triggers model load/embedding here.
   // That only happens once the user actually searches, so opening the
   // popup is never blocked by AI work.
   const pending = notes.some((note) => !note.embedding);

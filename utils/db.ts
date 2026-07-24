@@ -68,6 +68,23 @@ export async function putNote(note: Note): Promise<void> {
   await promisifyRequest(tx(db, 'readwrite').put(note));
 }
 
+/** Insert or overwrite many notes in a single transaction (import, restore). */
+export async function putNotes(notes: Note[]): Promise<void> {
+  if (notes.length === 0) {
+    return;
+  }
+  const db = await openDb();
+  const store = tx(db, 'readwrite');
+  await new Promise<void>((resolve, reject) => {
+    store.transaction.oncomplete = () => resolve();
+    store.transaction.onerror = () =>
+      reject(store.transaction.error ?? new Error('Failed to write notes.'));
+    for (const note of notes) {
+      store.put(note);
+    }
+  });
+}
+
 /**
  * Save a note, skipping exact duplicates (same text on the same page).
  * Returns the stored note plus whether it was newly added.

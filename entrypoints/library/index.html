@@ -75,13 +75,29 @@
               Everything lives in this browser only. Nothing is uploaded.
             </p>
             <div class="card-actions">
+              <select id="export-format" aria-label="Export format">
+                <option value="json">JSON</option>
+                <option value="markdown">Markdown</option>
+                <option value="txt">Plain text</option>
+                <option value="pdf">Print / PDF</option>
+              </select>
               <button id="export-btn" class="btn-secondary" type="button">
-                Export JSON
+                Export
               </button>
+              <button id="import-btn" class="btn-secondary" type="button">
+                Import JSON
+              </button>
+              <input
+                id="import-file"
+                class="hidden"
+                type="file"
+                accept="application/json,.json"
+              />
               <button id="clear-btn" class="btn-danger" type="button">
                 Clear all
               </button>
             </div>
+            <p id="import-status" class="card-note hidden"></p>
           </section>
         </aside>
       </div>

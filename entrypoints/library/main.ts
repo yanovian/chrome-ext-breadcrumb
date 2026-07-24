@@ -1,10 +1,19 @@
 import './style.css';
-import { clearAllNotes, deleteNote, getAllNotes } from '../../utils/db';
+import { writeBackup } from '../../utils/backup';
+import { clearAllNotes, deleteNote, getAllNotes, putNotes } from '../../utils/db';
 import {
   backfillEmbeddings,
   embedText,
   onModelProgress,
 } from '../../utils/embedder';
+import {
+  buildExportPayload,
+  buildPrintableHtml,
+  parseImportFile,
+  prepareImport,
+  toMarkdown,
+  toPlainText,
+} from '../../utils/importExport';
 import { findSimilar, rankNotes } from '../../utils/search';
 import { getSettings, saveSettings } from '../../utils/settings';
 import { buildSnippet, hostnameFromUrl, truncate } from '../../utils/text';
@@ -25,7 +34,11 @@ const noteList = document.querySelector<HTMLUListElement>('#note-list')!;
 const emptyEl = document.querySelector<HTMLElement>('#empty')!;
 const timelineEl = document.querySelector<HTMLElement>('#timeline')!;
 const topTopicsEl = document.querySelector<HTMLElement>('#top-topics')!;
+const exportFormat = document.querySelector<HTMLSelectElement>('#export-format')!;
 const exportBtn = document.querySelector<HTMLButtonElement>('#export-btn')!;
+const importBtn = document.querySelector<HTMLButtonElement>('#import-btn')!;
+const importFile = document.querySelector<HTMLInputElement>('#import-file')!;
+const importStatus = document.querySelector<HTMLElement>('#import-status')!;
 const clearBtn = document.querySelector<HTMLButtonElement>('#clear-btn')!;
 
 const similarDialog = document.querySelector<HTMLDialogElement>('#similar-dialog')!;
@@ -160,7 +173,7 @@ async function runSearch(query: string): Promise<void> {
     return;
   }
 
-  // The model/backfill only starts now, on demand — never while the page opens.
+  // The model/backfill only starts now, on demand, never while the page opens.
   void runBackfill();
   const unsubscribe = onModelProgress((progress) => {
     if (
@@ -330,6 +343,7 @@ async function handleListClick(event: MouseEvent): Promise<void> {
     await deleteNote(id);
     notes = notes.filter((candidate) => candidate.id !== id);
     render();
+    void writeBackup(notes);
   }
 }
 
@@ -373,16 +387,82 @@ async function runBackfill(): Promise<void> {
   }
 }
 
-function exportJson(): void {
-  const blob = new Blob([JSON.stringify(notes, null, 2)], {
-    type: 'application/json',
-  });
+function downloadFile(content: string, filename: string, mime: string): void {
+  const blob = new Blob([content], { type: mime });
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
   link.href = url;
-  link.download = `breadcrumb-export-${new Date().toISOString().slice(0, 10)}.json`;
+  link.download = filename;
   link.click();
   URL.revokeObjectURL(url);
+}
+
+function exportNotes(): void {
+  if (notes.length === 0) {
+    return;
+  }
+  const dateStamp = new Date().toISOString().slice(0, 10);
+  const base = `breadcrumb-export-${dateStamp}`;
+
+  switch (exportFormat.value) {
+    case 'markdown':
+      downloadFile(toMarkdown(notes), `${base}.md`, 'text/markdown');
+      return;
+    case 'txt':
+      downloadFile(toPlainText(notes), `${base}.txt`, 'text/plain');
+      return;
+    case 'pdf': {
+      const url = URL.createObjectURL(
+        new Blob([buildPrintableHtml(notes)], { type: 'text/html' }),
+      );
+      const win = window.open(url, '_blank');
+      if (!win) {
+        URL.revokeObjectURL(url);
+        return;
+      }
+      win.addEventListener('load', () => {
+        win.print();
+        URL.revokeObjectURL(url);
+      });
+      return;
+    }
+    default:
+      downloadFile(
+        JSON.stringify(buildExportPayload(notes), null, 2),
+        `${base}.json`,
+        'application/json',
+      );
+  }
+}
+
+function setImportStatus(text: string): void {
+  importStatus.textContent = text;
+  importStatus.classList.toggle('hidden', !text);
+}
+
+async function importNotesFromFile(file: File): Promise<void> {
+  try {
+    const raw = parseImportFile(await file.text());
+    const { notes: toInsert, summary } = prepareImport(raw, notes);
+
+    if (toInsert.length > 0) {
+      await putNotes(toInsert);
+      await reloadNotes();
+      void writeBackup(notes);
+      render();
+    }
+
+    const parts = [`${summary.imported} imported`];
+    if (summary.duplicates > 0) {
+      parts.push(`${summary.duplicates} already saved`);
+    }
+    if (summary.invalid > 0) {
+      parts.push(`${summary.invalid} skipped`);
+    }
+    setImportStatus(parts.join(' · '));
+  } catch (error) {
+    setImportStatus(error instanceof Error ? error.message : 'Import failed.');
+  }
 }
 
 async function handleClearAll(): Promise<void> {
@@ -400,6 +480,9 @@ async function handleClearAll(): Promise<void> {
   activeTopic = null;
   search.value = '';
   render();
+  // Clear the backup too. Otherwise a future update's self-heal check would
+  // see IndexedDB empty and "restore" notes the user just chose to delete.
+  void writeBackup(notes);
 }
 
 let debounceTimer: ReturnType<typeof setTimeout> | undefined;
@@ -443,7 +526,15 @@ similarList.addEventListener('click', (event) => {
 });
 
 embedBtn.addEventListener('click', () => void runBackfill());
-exportBtn.addEventListener('click', exportJson);
+exportBtn.addEventListener('click', exportNotes);
+importBtn.addEventListener('click', () => importFile.click());
+importFile.addEventListener('change', () => {
+  const file = importFile.files?.[0];
+  importFile.value = '';
+  if (file) {
+    void importNotesFromFile(file);
+  }
+});
 clearBtn.addEventListener('click', () => void handleClearAll());
 
 similarClose.addEventListener('click', () => similarDialog.close());
@@ -467,7 +558,7 @@ void (async () => {
   enableSemantic.checked = settings.enableSemantic;
   await reloadNotes();
   render();
-  // Cheap in-memory check only — never triggers model load/embedding here.
+  // Cheap in-memory check only, never triggers model load/embedding here.
   // That only happens once the user searches or presses "Embed", so opening
   // the page is never blocked by AI work.
   const pending = notes.some((note) => !note.embedding);

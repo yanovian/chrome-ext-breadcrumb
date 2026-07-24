@@ -2,6 +2,11 @@
 
 All notable user-facing changes to Breadcrumb.
 
+## 3.3.0 [Unreleased]
+
+- Notes now survive extension updates via an automatic local backup.
+- Add Markdown, plain text, and PDF export, plus JSON import.
+
 ## 3.2.0
 
 - Available on the [Chrome Web Store](https://chromewebstore.google.com/detail/breadcrumb/medkklaaakhdpgcoaghblbnleeandifi).
