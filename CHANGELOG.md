@@ -2,7 +2,7 @@
 
 All notable user-facing changes to Breadcrumb.
 
-## [3.2.0] — Unreleased
+## [3.2.0]
 
 - Available on the [Chrome Web Store](https://chromewebstore.google.com/detail/breadcrumb/medkklaaakhdpgcoaghblbnleeandifi).
 - New [getting-started tutorial](./_doc/tutorial.md).
