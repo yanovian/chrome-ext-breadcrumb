@@ -154,7 +154,18 @@ async function runSearch(query: string): Promise<void> {
     return;
   }
 
-  // Semantic pass layers meaning-based matches on top.
+  // Semantic pass layers meaning-based matches on top. The model/backfill only
+  // starts now, on demand — never while the popup is opening.
+  void maybeBackfill();
+  const unsubscribe = onModelProgress((progress) => {
+    if (
+      token === searchToken &&
+      progress.status === 'progress' &&
+      typeof progress.progress === 'number'
+    ) {
+      searchStatus.textContent = `Loading AI model ${Math.round(progress.progress)}%…`;
+    }
+  });
   try {
     const queryEmbedding = await embedText(trimmed);
     if (token !== searchToken) {
@@ -177,6 +188,8 @@ async function runSearch(query: string): Promise<void> {
     if (token === searchToken && textResults.length === 0) {
       showNoResults(trimmed);
     }
+  } finally {
+    unsubscribe();
   }
 }
 
@@ -332,9 +345,18 @@ void (async () => {
   await reloadNotes();
   await showSavedBanner();
   renderRecent();
+  // Cheap in-memory check only — never triggers model load/embedding here.
+  // That only happens once the user actually searches, so opening the
+  // popup is never blocked by AI work.
+  const pending = notes.some((note) => !note.embedding);
   setModelStatus(
-    settings.enableSemantic ? (notes.length ? 'AI ready' : '') : 'AI off',
+    !settings.enableSemantic
+      ? 'AI off'
+      : pending
+        ? ''
+        : notes.length
+          ? 'AI ready'
+          : '',
   );
   searchInput.focus();
-  void maybeBackfill();
 })();

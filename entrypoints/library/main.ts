@@ -160,6 +160,17 @@ async function runSearch(query: string): Promise<void> {
     return;
   }
 
+  // The model/backfill only starts now, on demand — never while the page opens.
+  void runBackfill();
+  const unsubscribe = onModelProgress((progress) => {
+    if (
+      token === searchToken &&
+      progress.status === 'progress' &&
+      typeof progress.progress === 'number'
+    ) {
+      viewStatus.textContent = `Loading AI model ${Math.round(progress.progress)}%…`;
+    }
+  });
   try {
     const queryEmbedding = await embedText(trimmed);
     if (token !== searchToken) {
@@ -180,6 +191,8 @@ async function runSearch(query: string): Promise<void> {
     if (token === searchToken && textResults.length === 0) {
       showNoResults(trimmed);
     }
+  } finally {
+    unsubscribe();
   }
 }
 
@@ -454,8 +467,11 @@ void (async () => {
   enableSemantic.checked = settings.enableSemantic;
   await reloadNotes();
   render();
-  setEmbedStatus(settings.enableSemantic ? '' : 'AI off');
-  if (settings.enableSemantic && settings.autoEmbed) {
-    void runBackfill();
-  }
+  // Cheap in-memory check only — never triggers model load/embedding here.
+  // That only happens once the user searches or presses "Embed", so opening
+  // the page is never blocked by AI work.
+  const pending = notes.some((note) => !note.embedding);
+  setEmbedStatus(
+    !settings.enableSemantic ? 'AI off' : pending ? '' : notes.length ? 'All embedded' : '',
+  );
 })();
