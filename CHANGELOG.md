@@ -7,6 +7,7 @@ All notable user-facing changes to Breadcrumb.
 - Available on the [Chrome Web Store](https://chromewebstore.google.com/detail/breadcrumb/medkklaaakhdpgcoaghblbnleeandifi).
 - New [getting-started tutorial](./_doc/tutorial.md).
 - Store listing descriptions in 40+ languages.
+- Fix: the popup and library no longer stall on open loading the AI model — that only happens once you actually search.
 
 ## [3.1.0] — 2026-07-03
 
