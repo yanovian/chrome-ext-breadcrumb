@@ -2,6 +2,10 @@
 
 All notable user-facing changes to Breadcrumb.
 
+## 3.3.1 [unreleased]
+
+- Dependencies updated
+
 ## 3.3.0
 
 - Notes now survive extension updates via an automatic local backup.
