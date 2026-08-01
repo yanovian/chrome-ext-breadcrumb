@@ -9,8 +9,8 @@ import {
   SITE_NAME,
   SITE_URL,
   YANOVIAN_LLC_NAME,
-} from './site-meta';
-import enSeo from './src/locales/en/seo.json';
+} from './site-meta.ts';
+import enSeo from './src/locales/en/seo.json' with { type: 'json' };
 
 const base = process.env.VITE_BASE_PATH ?? '/';
 const ogImage = absoluteAssetUrl('og-image.png');
@@ -44,7 +44,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@': resolve(__dirname, 'src'),
+      '@': resolve(import.meta.dirname, 'src'),
     },
   },
 });
