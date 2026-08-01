@@ -1,7 +1,7 @@
 .PHONY: help install prepare assets dev dev-firefox build build-firefox \
 	zip zip-firefox icons test test-watch typecheck check package clean \
 	release-patch release-minor release-major \
-	website-install website-dev website-build website-preview website-clean \
+	website-install website-prepare website-dev website-build website-preview website-clean \
 	website-lint-i18n website-lint-i18n-fix website-og-images
 
 PNPM ?= pnpm
@@ -62,10 +62,14 @@ clean: ## Remove build output
 website-install: ## Install marketing site dependencies (website/)
 	cd $(WEBSITE) && $(PNPM) install
 
+website-prepare: ## Generate .wxt/tsconfig.json only, root tsconfig.json extends it, skips the extension's model/wasm postinstall assets
+	$(PNPM) install --ignore-scripts --frozen-lockfile
+	$(PNPM) exec wxt prepare
+
 website-dev: ## Marketing site dev server (localhost, hot reload, base /)
 	cd $(WEBSITE) && $(PNPM) dev
 
-website-build: ## Production build for GitHub Pages (base $(GITHUB_PAGES_BASE))
+website-build: website-prepare ## Production build for GitHub Pages (base $(GITHUB_PAGES_BASE))
 	cd $(WEBSITE) && VITE_BASE_PATH=$(GITHUB_PAGES_BASE) $(PNPM) build
 
 website-preview: website-build ## Preview production build at http://localhost:4173$(GITHUB_PAGES_BASE)
